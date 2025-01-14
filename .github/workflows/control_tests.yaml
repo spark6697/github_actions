@@ -1,0 +1,37 @@
+name: Pytest & flake8 control Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  qa:
+    name: Check tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      # Checkout code from the repository
+      - name: Checkout on master
+        uses: actions/checkout@v3
+
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: "3.x"  # You can specify the Python version you need
+
+      # Install necessary packages (pytest and flake8)
+      - name: Install pytest and flake8
+        run: |
+          pip install pytest
+          pip install flake8
+
+      # Run the tests with pytest
+      - name: Run tests
+        run: |
+          pytest  # This will look for test functions in your repository
+
+      # Run flake8 for code linting (PEP8 check)
+      - name: Run flake8
+        uses: py-actions/flake8@v2  # This action checks your code for PEP8 violations
